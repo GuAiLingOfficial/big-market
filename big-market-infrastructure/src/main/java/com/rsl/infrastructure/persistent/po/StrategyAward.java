@@ -12,29 +12,29 @@ import java.util.Date;
 public class StrategyAward {
 
     //自增ID
-    Long id;
+    private Long id;
     //抽奖策略ID
-    Long strategyId;
+    private Long strategyId;
     //抽奖奖品ID-内部流转使用
-    Integer awardId;
+    private Integer awardId;
     //抽奖奖品标题
-    String awardTitle;
+    private String awardTitle;
     //抽奖奖品副标题
-    String awardSubTitle;
+    private String awardSubTitle;
     //奖品库存总量
-    Integer awardCount;
+    private Integer awardCount;
     //奖品库存剩余量
-    Integer awardCountSurplus;
-    //奖品中将概率
-    BigDecimal awardRate;
+    private Integer awardCountSurplus;
+    //奖品中奖概率
+    private BigDecimal awardRate;
     //规则模型，rule配置的模型同步到此表，方便使用
-    String ruleModels;
+    private String ruleModels;
     //排序
-    Integer sort;
+    private Integer sort;
     //创建时间
-    Date createTime;
+    private Date createTime;
     //更新时间
-    Date updateTime;
+    private Date updateTime;
 
 
 }

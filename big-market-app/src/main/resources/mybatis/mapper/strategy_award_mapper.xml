@@ -18,19 +18,14 @@
     </resultMap>
 
     <select id="queryStrategyAwardList" resultMap="dataMap">
-        SELECT strategy_id,
-               award_id,
-               award_title,
-               award_subtitle,
-               award_count,
-               award_count_surplus,
-               award_rate,
-               rule_models,
-               sort,
-               create_time,
-               update_time
+        SELECT strategy_id
         FROM strategy_award
         LIMIT 10;
     </select>
 
+    <select id="queryStrategyAwardListByStrategyId" parameterType="java.lang.Long" resultMap="dataMap">
+        SELECT strategy_id, award_id, award_count, award_count_surplus, award_rate
+        FROM strategy_award
+        WHERE strategy_id = #{strategy_id}
+    </select>
 </mapper>
