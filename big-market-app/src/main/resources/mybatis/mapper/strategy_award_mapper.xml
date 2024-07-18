@@ -28,4 +28,10 @@
         FROM strategy_award
         WHERE strategy_id = #{strategy_id}
     </select>
+    <select id="queryStrategyAwardRuleModels" parameterType="com.rsl.infrastructure.persistent.po.StrategyAward" resultType="java.lang.String">
+        SELECT rule_models
+        FROM strategy_award
+        WHERE strategy_id = #{strategyId}
+          AND award_id = #{awardId}
+    </select>
 </mapper>
