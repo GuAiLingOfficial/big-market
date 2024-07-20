@@ -1,6 +1,6 @@
 package com.rsl.domain.strategy.model.vo;
 
-import com.rsl.domain.strategy.service.rule.factory.DefaultLogicFactory;
+import com.rsl.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import com.rsl.types.common.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

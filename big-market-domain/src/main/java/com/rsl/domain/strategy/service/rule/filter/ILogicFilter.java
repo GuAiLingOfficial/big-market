@@ -1,4 +1,4 @@
-package com.rsl.domain.strategy.service.rule;
+package com.rsl.domain.strategy.service.rule.filter;
 
 import com.rsl.domain.strategy.model.entity.RuleActionEntity;
 import com.rsl.domain.strategy.model.entity.RuleMatterEntity;
