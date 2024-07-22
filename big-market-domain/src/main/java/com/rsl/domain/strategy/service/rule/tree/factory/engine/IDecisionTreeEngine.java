@@ -8,5 +8,7 @@ import com.rsl.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
  * @ create: 2024-07-21 10:37
  **/
 public interface IDecisionTreeEngine {
-    DefaultTreeFactory.StrategyAwardData process(String userId, Long strategyId, Integer awardId);
+    DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId);
+
 }
+

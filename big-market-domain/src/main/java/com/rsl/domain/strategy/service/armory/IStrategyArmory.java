@@ -6,6 +6,7 @@ package com.rsl.domain.strategy.service.armory;
  * @ create: 2024-07-02 16:09
  **/
 public interface IStrategyArmory {
+
     /**
      * 装配抽奖策略配置「触发的时机可以为活动审核通过后进行调用」
      *
