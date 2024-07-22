@@ -1,4 +1,4 @@
-package com.rsl.domain.strategy.model.vo;
+package com.rsl.domain.strategy.model.valobj;
 
 import com.rsl.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import com.rsl.types.common.Constants;

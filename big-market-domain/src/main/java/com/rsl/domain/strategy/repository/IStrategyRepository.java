@@ -3,7 +3,7 @@ package com.rsl.domain.strategy.repository;
 import com.rsl.domain.strategy.model.entity.StrategyAwardEntity;
 import com.rsl.domain.strategy.model.entity.StrategyEntity;
 import com.rsl.domain.strategy.model.entity.StrategyRuleEntity;
-import com.rsl.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 
 import java.util.HashMap;
 import java.util.List;

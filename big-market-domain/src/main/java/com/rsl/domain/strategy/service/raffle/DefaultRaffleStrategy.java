@@ -3,7 +3,7 @@ package com.rsl.domain.strategy.service.raffle;
 import com.rsl.domain.strategy.model.entity.RaffleFactorEntity;
 import com.rsl.domain.strategy.model.entity.RuleActionEntity;
 import com.rsl.domain.strategy.model.entity.RuleMatterEntity;
-import com.rsl.domain.strategy.model.vo.RuleLogicCheckTypeVO;
+import com.rsl.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import com.rsl.domain.strategy.repository.IStrategyRepository;
 import com.rsl.domain.strategy.service.AbstractRaffleStrategy;
 import com.rsl.domain.strategy.service.armory.IStrategyDispatch;

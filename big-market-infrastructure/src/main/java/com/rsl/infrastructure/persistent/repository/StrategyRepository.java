@@ -3,7 +3,7 @@ package com.rsl.infrastructure.persistent.repository;
 import com.rsl.domain.strategy.model.entity.StrategyAwardEntity;
 import com.rsl.domain.strategy.model.entity.StrategyEntity;
 import com.rsl.domain.strategy.model.entity.StrategyRuleEntity;
-import com.rsl.domain.strategy.model.vo.StrategyAwardRuleModelVO;
+import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.rsl.domain.strategy.repository.IStrategyRepository;
 import com.rsl.infrastructure.persistent.dao.IStrategyAwardDao;
 import com.rsl.infrastructure.persistent.dao.IStrategyDao;
