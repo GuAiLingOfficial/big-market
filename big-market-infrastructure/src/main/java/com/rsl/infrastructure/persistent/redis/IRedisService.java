@@ -62,7 +62,7 @@ public interface IRedisService {
     <T> RDelayedQueue<T> getDelayedQueue(RBlockingQueue<T> rBlockingQueue);
 
 
-    <T>RMap<T,T> getMap(String key);
+    <T> RMap<T, T> getMap(String key);
 
     /**
      * 自增 Key 的值；1、2、3、4
@@ -164,6 +164,7 @@ public interface IRedisService {
      */
 
     String getFromMap(String key, String field);
+
     <K, V> V getFromMap(String key, K field);
 
 
@@ -235,4 +236,21 @@ public interface IRedisService {
      */
     <T> RBloomFilter<T> getBloomFilter(String key);
 
+    /**
+     * 获取值
+     *
+     * @param key 键
+     */
+    Long getAtomicLong(String key);
+
+    /**
+     * 设置值
+     *  RAtomicLong 主要用于在分布式系统中实现原子计数器，确保在并发情况下，计数器的操作是安全的。
+     *  用于计库存的数，实施安全扣减
+     * @param key   key 键
+     * @param value 值
+     */
+    void setAtomicLong(String key, Integer value);
+
+    Boolean setNx(String key);
 }

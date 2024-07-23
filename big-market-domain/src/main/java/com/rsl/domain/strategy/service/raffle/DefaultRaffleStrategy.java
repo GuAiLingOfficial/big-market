@@ -2,6 +2,7 @@ package com.rsl.domain.strategy.service.raffle;
 
 import com.rsl.domain.strategy.model.valobj.RuleTreeVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
+import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import com.rsl.domain.strategy.repository.IStrategyRepository;
 import com.rsl.domain.strategy.service.AbstractRaffleStrategy;
 import com.rsl.domain.strategy.service.armory.IStrategyDispatch;
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * raffle 是抽奖功能的实现，抽象类是模板模式，定义出标准的抽奖流程
+ * raffle 是抽奖功能的实现，抽象类是模板模式，定义出标准的抽奖流程*
  *
  * @ description:默认的抽奖策略实现
  * @ author: rsl
@@ -47,4 +48,13 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
         return treeEngine.process(userId, strategyId, awardId);
     }
 
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId, awardId);
+    }
 }

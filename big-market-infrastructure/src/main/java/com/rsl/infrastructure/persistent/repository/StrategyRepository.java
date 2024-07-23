@@ -9,6 +9,9 @@ import com.rsl.infrastructure.persistent.dao.*;
 import com.rsl.infrastructure.persistent.po.*;
 import com.rsl.infrastructure.persistent.redis.IRedisService;
 import com.rsl.types.common.Constants;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ description:策略仓储接口实现
@@ -23,6 +27,7 @@ import java.util.Map;
  * @ create: 2024-07-02 16:16
  **/
 @Repository
+@Slf4j
 public class StrategyRepository implements IStrategyRepository {
 
     @Resource
@@ -197,5 +202,66 @@ public class StrategyRepository implements IStrategyRepository {
         redisService.setValue(cacheKey, ruleTreeVODB);
         return ruleTreeVODB;
     }
+
+    @Override
+    public void cacheStrategyAwardCount(String cacheKey, Integer awardCount) {
+        Long cacheAwardCount = redisService.getAtomicLong(cacheKey);
+        //  缓存不为空直接返回
+        if (redisService.isExists(cacheKey)) return;
+        //  缓存为空则添加缓存
+        redisService.setAtomicLong(cacheKey, awardCount);
+    }
+
+    @Override
+    public Boolean subtractionAwardStock(String cacheKey) {
+        long surplus = redisService.decr(cacheKey);
+        if (surplus < 0) {
+            // 库存小于0，恢复为0个
+            redisService.setValue(cacheKey, 0);
+            return false;
+        }
+        // 1. 按照cacheKey decr 后的值，如 99、98、97 和 key 组成为库存锁的key进行使用。
+        // 2. 加锁为了兜底，如果后续有恢复库存，手动处理等，也不会超卖。因为所有的可用库存key，都被加锁了。
+        String lockKey = cacheKey + Constants.UNDERLINE + surplus;
+        Boolean lock = redisService.setNx(lockKey);
+        if (!lock) {
+            log.info("策略奖品库存加锁失败 {}", lockKey);
+        }
+        return lock;
+    }
+
+    @Override
+    public void awardStockConsumeSendQueue(StrategyAwardStockKeyVO strategyAwardStockKeyVO) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        // 获取基于redis-List实现的一个分布式的阻塞队列（Blocking Queue）。
+        // 阻塞队列是一种特殊类型的队列，当试图从空队列中获取元素时，操作会被阻塞直到有可用元素；
+        // 同样，当试图向满队列添加元素时，操作会被阻塞直到有空间
+        RBlockingQueue<StrategyAwardStockKeyVO> blockingQueue = redisService.getBlockingQueue(cacheKey);
+        // 获取一个分布式的延迟队列。
+        // 延迟队列是一种特殊的队列，其中的元素在指定的延迟时间后才能被消费。
+        // Redisson 的延迟队列基于 Redis 的有序集合（Sorted Set）和定时任务实现，确保元素在到期之前不会被消费。
+        RDelayedQueue<StrategyAwardStockKeyVO> delayedQueue = redisService.getDelayedQueue(blockingQueue);
+        // 指定将元素插入队列中3s后才能消费元素
+        delayedQueue.offer(strategyAwardStockKeyVO, 3, TimeUnit.SECONDS);
+
+    }
+
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue(){
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_QUEUE_KEY;
+        RBlockingQueue<StrategyAwardStockKeyVO> destinationQueue = redisService.getBlockingQueue(cacheKey);
+        //队列中获取并移除一个元素，等待指定的时间，如果在时间内没有元素可用，则返回 null。
+        return destinationQueue.poll();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        strategyAwardDao.updateStrategyAwardStock(strategyAward);
+    }
+
+
 
 }

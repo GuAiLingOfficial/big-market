@@ -5,8 +5,9 @@ import com.rsl.domain.strategy.model.entity.StrategyEntity;
 import com.rsl.domain.strategy.model.entity.StrategyRuleEntity;
 import com.rsl.domain.strategy.model.valobj.RuleTreeVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
+import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -45,5 +46,43 @@ public interface IStrategyRepository {
      */
     RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
 
+    /**
+     * 缓存奖品库存
+     *
+     * @param cacheKey Redis缓存key
+     * @param awardCount 库存总量
+     */
+    void cacheStrategyAwardCount(String cacheKey, Integer awardCount);
+
+    /**
+     * 缓存key，decr 方式扣减库存
+     *
+     * @param cacheKey 缓存Key
+     * @return 扣减结果
+     */
+    Boolean subtractionAwardStock(String cacheKey);
+
+    /**
+     * 写入奖品库存消费队列
+     *
+     * @param strategyAwardStockKeyVO 对象值对象
+     */
+
+    void awardStockConsumeSendQueue(StrategyAwardStockKeyVO strategyAwardStockKeyVO);
+
+    /**
+     * 获取奖品库存消费队列
+     */
+
+    StrategyAwardStockKeyVO takeQueueValue();
+
+    /**
+     * 更新奖品库存消耗
+     * 更新数据库表的库存
+     * @param strategyId 策略ID
+     * @param awardId 奖品ID
+     */
+
+    void updateStrategyAwardStock(Long strategyId, Integer awardId);
 }
 
