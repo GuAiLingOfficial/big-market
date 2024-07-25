@@ -1,10 +1,13 @@
 package com.rsl.domain.strategy.service.raffle;
 
+import com.rsl.domain.strategy.model.entity.StrategyAwardEntity;
 import com.rsl.domain.strategy.model.valobj.RuleTreeVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import com.rsl.domain.strategy.repository.IStrategyRepository;
 import com.rsl.domain.strategy.service.AbstractRaffleStrategy;
+import com.rsl.domain.strategy.service.IRaffleAward;
+import com.rsl.domain.strategy.service.IRaffleStock;
 import com.rsl.domain.strategy.service.armory.IStrategyDispatch;
 import com.rsl.domain.strategy.service.rule.chain.ILogicChain;
 import com.rsl.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
@@ -12,6 +15,8 @@ import com.rsl.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import com.rsl.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * raffle 是抽奖功能的实现，抽象类是模板模式，定义出标准的抽奖流程*
@@ -22,7 +27,7 @@ import org.springframework.stereotype.Service;
  **/
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock {
 
     public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultTreeFactory defaultTreeFactory) {
         super(repository, strategyDispatch, defaultChainFactory, defaultTreeFactory);
@@ -57,4 +62,10 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
         repository.updateStrategyAwardStock(strategyId, awardId);
     }
+
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId) {
+        return repository.queryStrategyAwardList(strategyId);
+    }
+
 }

@@ -1,6 +1,19 @@
 server:
   port: 8091
+  tomcat:
+    threads:
+      max: 200        # 设定处理客户请求的最大数目，决定了服务器可以同时响应用户请求的数，默认200
+      min-spare: 50   # 初始化线程数，最小空闲线程数，默认10
+    accept-count: 10  # 等待队列长度
 
+# 应用配置
+app:
+  config:
+    # 版本，方便通过接口版本升级
+    api-version: v1
+    # 跨域，开发阶段可以设置为 * 不设置
+    # 跨域（Cross-Origin Resource Sharing, CORS）是指在浏览器中运行的 Web 应用程序从一个域（origin）向不同域发送请求的行为 前端应用程序向后端 API 发出请求
+    cross-origin: '*'
 # 线程池配置
 thread:
   pool:
