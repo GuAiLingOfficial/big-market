@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 /**
- * @ description:
+ * @ description:测试装配
  * @ author: rsl
  * @ create: 2024-07-02 18:00
  **/

@@ -7,7 +7,7 @@ import com.rsl.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
  * @ author: rsl
  * @ create: 2024-07-19 16:23
  **/
-public interface ILogicChain extends ILogicChainArmory{
+public interface ILogicChain extends ILogicChainArmory,Cloneable{
     /**
      * 责任链接口
      *

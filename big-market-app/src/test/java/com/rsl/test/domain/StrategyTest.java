@@ -33,10 +33,11 @@ public class StrategyTest {
 
     /**
      * 策略ID；100001L、100002L 装配的时候创建策略表写入到 Redis Map 中
+     * 100001L 测试权重装配
      */
     @Before
     public void test_strategyArmory() {
-        boolean success = strategyArmory.assembleLotteryStrategy(100005L);
+        boolean success = strategyArmory.assembleLotteryStrategy(100001L);
         log.info("测试结果：{}", success);
     }
 

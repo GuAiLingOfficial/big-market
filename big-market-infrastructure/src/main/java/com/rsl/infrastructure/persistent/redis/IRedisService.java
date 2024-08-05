@@ -61,7 +61,12 @@ public interface IRedisService {
      */
     <T> RDelayedQueue<T> getDelayedQueue(RBlockingQueue<T> rBlockingQueue);
 
-
+    /**
+     * 创建一个空的hash类型
+     * @param key
+     * @return
+     * @param <T>
+     */
     <T> RMap<T, T> getMap(String key);
 
     /**

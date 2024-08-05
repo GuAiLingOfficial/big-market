@@ -3,6 +3,8 @@ package com.rsl.test.domain;
 import com.alibaba.fastjson.JSON;
 import com.rsl.domain.strategy.model.entity.RaffleAwardEntity;
 import com.rsl.domain.strategy.model.entity.RaffleFactorEntity;
+import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
+import com.rsl.domain.strategy.service.IRaffleStock;
 import com.rsl.domain.strategy.service.IRaffleStrategy;
 import com.rsl.domain.strategy.service.armory.IStrategyArmory;
 import com.rsl.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
@@ -37,14 +39,13 @@ public class RaffleStrategyTest {
     @Resource
     private RuleLockLogicTreeNode ruleLockLogicTreeNode;
 
+    @Resource
+    private IRaffleStock raffleStock;
+
     @Before
     public void setUp() {
         // 策略装配 100001、100002、100003
-//        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100001L));
-//        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100002L));
-//        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100003L));
-//        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100004L));
-//        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100005L));
+        log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100001L));
         log.info("测试结果：{}", strategyArmory.assembleLotteryStrategy(100006L));
 
         // 通过反射 mock 规则中的值
@@ -54,7 +55,7 @@ public class RaffleStrategyTest {
 
     @Test
     public void test_performRaffle() throws InterruptedException {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
                     .userId("xiaofuge")
                     .strategyId(100006L)
@@ -66,6 +67,7 @@ public class RaffleStrategyTest {
             log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
         }
 
+        // 等待 UpdateAwardStockJob 消费队列
         new CountDownLatch(1).await();
     }
 
@@ -99,4 +101,11 @@ public class RaffleStrategyTest {
         log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
     }
 
+    @Test
+    public void test_takeQueueValue() throws InterruptedException {
+        StrategyAwardStockKeyVO strategyAwardStockKeyVO = raffleStock.takeQueueValue();
+        log.info("测试结果：{}", JSON.toJSONString(strategyAwardStockKeyVO));
+    }
+
 }
+

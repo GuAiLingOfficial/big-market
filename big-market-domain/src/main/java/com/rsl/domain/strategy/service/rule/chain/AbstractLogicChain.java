@@ -25,5 +25,6 @@ public abstract class AbstractLogicChain implements ILogicChain {
 
     protected abstract String ruleModel();
 
+
 }
 
