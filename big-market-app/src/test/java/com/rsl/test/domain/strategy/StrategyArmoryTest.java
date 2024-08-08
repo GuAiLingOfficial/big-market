@@ -1,4 +1,4 @@
-package com.rsl.test.domain;
+package com.rsl.test.domain.strategy;
 
 import com.rsl.domain.strategy.service.armory.IStrategyArmory;
 import com.rsl.domain.strategy.service.armory.IStrategyDispatch;

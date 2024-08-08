@@ -1,4 +1,4 @@
-package com.rsl.test.domain;
+package com.rsl.test.domain.strategy;
 
 import com.alibaba.fastjson.JSON;
 import com.rsl.domain.strategy.model.entity.RaffleAwardEntity;

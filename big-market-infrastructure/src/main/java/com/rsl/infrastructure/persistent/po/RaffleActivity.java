@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @ description:抽奖活动表 持久化对象
  * @ author: rsl
- * @ create: 2024-08-05 14:46
+ * @ create: 2024-08-08 14:55
  **/
 @Data
 public class RaffleActivity {
@@ -41,21 +41,6 @@ public class RaffleActivity {
      * 结束时间
      */
     private Date endDateTime;
-
-    /**
-     * 库存总量
-     */
-    private Integer stockCount;
-
-    /**
-     * 剩余库存
-     */
-    private Integer stockCountSurplus;
-
-    /**
-     * 活动参与次数配置
-     */
-    private Long activityCountId;
 
     /**
      * 抽奖策略ID
