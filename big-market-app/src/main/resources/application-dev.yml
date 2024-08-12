@@ -14,6 +14,20 @@ app:
     # 跨域，开发阶段可以设置为 * 不设置
     # 跨域（Cross-Origin Resource Sharing, CORS）是指在浏览器中运行的 Web 应用程序从一个域（origin）向不同域发送请求的行为 前端应用程序向后端 API 发出请求
     cross-origin: '*'
+
+# Spring 配置；rabbitmq
+spring:
+  rabbitmq:
+    addresses: 117.72.37.248
+    port: 5672
+    username: admin
+    password: 13476675441rsq.
+    listener:
+      simple:
+        prefetch: 1 # 每次投递n个消息，消费完在投递n个
+    topic:
+      activity_sku_stock_zero: activity_sku_stock_zero
+
 # 线程池配置
 thread:
   pool:

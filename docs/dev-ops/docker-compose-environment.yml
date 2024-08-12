@@ -11,8 +11,6 @@ services:
       MYSQL_ROOT_PASSWORD: 13476675441rsq.
     networks:
       - my-network
-    depends_on:
-      - mysql-job-dbdata
     ports:
       - "13306:3306"
     volumes:
@@ -23,15 +21,6 @@ services:
       timeout: 10s
       retries: 10
       start_period: 15s
-    volumes_from:
-      - mysql-job-dbdata
-
-  # 自动加载数据
-  mysql-job-dbdata:
-    image: alpine:3.18.2
-    container_name: mysql-job-dbdata
-    volumes:
-      - /var/lib/mysql
 
   # phpmyadmin https://hub.docker.com/_/phpmyadmin
   phpmyadmin:
@@ -93,10 +82,10 @@ services:
         condition: service_healthy
 
   # rabbitmq
-  # 账密 admin/admin
+  # 账密 admin/13476675441rsq.
   # rabbitmq-plugins enable rabbitmq_management
   rabbitmq:
-    image: rabbitmq:3.12.9
+    image: registry.cn-hangzhou.aliyuncs.com/xfg-studio/rabbitmq:3.12.9
     container_name: rabbitmq
     restart: always
     ports:
