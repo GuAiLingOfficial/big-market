@@ -1,25 +1,21 @@
-package com.rsl.infrastructure.persistent.po;
+package com.rsl.domain.activity.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
- * @ description:抽奖活动账户表-月次数
+ * @ description:活动账户（月）实体对象
  * @ author: rsl
- * @ create: 2024-08-14 13:49
+ * @ create: 2024-08-14 15:11
  **/
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleActivityAccountMonth {
+public class ActivityAccountMonthEntity {
 
-    /** 自增ID */
-    private String id;
     /** 用户ID */
     private String userId;
     /** 活动ID */
@@ -30,9 +26,5 @@ public class RaffleActivityAccountMonth {
     private Integer monthCount;
     /** 月次数-剩余 */
     private Integer monthCountSurplus;
-    /** 创建时间 */
-    private Date createTime;
-    /** 更新时间 */
-    private Date updateTime;
 
 }

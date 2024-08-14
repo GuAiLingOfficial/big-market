@@ -1,4 +1,4 @@
-package com.rsl.domain.activity.service.rule;
+package com.rsl.domain.activity.service.quota.rule;
 
 /**
  * @ description:责任链装配

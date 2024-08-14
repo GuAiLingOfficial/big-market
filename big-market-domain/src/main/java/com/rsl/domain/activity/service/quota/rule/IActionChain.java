@@ -1,4 +1,4 @@
-package com.rsl.domain.activity.service.rule;
+package com.rsl.domain.activity.service.quota.rule;
 
 import com.rsl.domain.activity.model.entity.ActivityCountEntity;
 import com.rsl.domain.activity.model.entity.ActivityEntity;

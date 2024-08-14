@@ -1,7 +1,5 @@
 package com.rsl.domain.activity.service;
 
-import com.rsl.domain.activity.model.entity.ActivityOrderEntity;
-import com.rsl.domain.activity.model.entity.ActivityShopCartEntity;
 import com.rsl.domain.activity.model.entity.SkuRechargeEntity;
 
 /**
@@ -9,7 +7,7 @@ import com.rsl.domain.activity.model.entity.SkuRechargeEntity;
  * @ author: rsl
  * @ create: 2024-08-08 15:33
  **/
-public interface IRaffleOrder {
+public interface IRaffleActivityAccountQuotaService  {
 
     /**
      * 创建 sku 账户充值订单，给用户增加抽奖次数
@@ -21,6 +19,6 @@ public interface IRaffleOrder {
      * @return 活动ID
      */
 
-    String createSkuRechargeOrder(SkuRechargeEntity skuRechargeEntity);
+    String createOrder(SkuRechargeEntity skuRechargeEntity);
 
 }

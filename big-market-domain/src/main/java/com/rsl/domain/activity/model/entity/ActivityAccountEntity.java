@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @ description:活动账户实体对象
+ * @ description:活动账户（总）实体对象
  * @ author: rsl
  * @ create: 2024-08-08 15:39
  **/

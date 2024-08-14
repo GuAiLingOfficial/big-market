@@ -1,4 +1,4 @@
-package com.rsl.domain.activity.service.rule.impl;
+package com.rsl.domain.activity.service.quota.rule.impl;
 
 import com.rsl.domain.activity.model.entity.ActivityCountEntity;
 import com.rsl.domain.activity.model.entity.ActivityEntity;
@@ -6,7 +6,7 @@ import com.rsl.domain.activity.model.entity.ActivitySkuEntity;
 import com.rsl.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 import com.rsl.domain.activity.repository.IActivityRepository;
 import com.rsl.domain.activity.service.armory.IActivityDispatch;
-import com.rsl.domain.activity.service.rule.AbstractActionChain;
+import com.rsl.domain.activity.service.quota.rule.AbstractActionChain;
 import com.rsl.types.enums.ResponseCode;
 import com.rsl.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;

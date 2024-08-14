@@ -1,22 +1,22 @@
-package com.rsl.domain.activity.service;
+package com.rsl.domain.activity.service.quota;
 
 import com.rsl.domain.activity.model.entity.ActivityCountEntity;
 import com.rsl.domain.activity.model.entity.ActivityEntity;
 import com.rsl.domain.activity.model.entity.ActivitySkuEntity;
 import com.rsl.domain.activity.repository.IActivityRepository;
-import com.rsl.domain.activity.service.rule.factory.DefaultActivityChainFactory;
+import com.rsl.domain.activity.service.quota.rule.factory.DefaultActivityChainFactory;
 
 /**
  * @ description:抽奖活动的支撑类,为抽象类提供服务,例如查询、封装等
  * @ author: rsl
  * @ create: 2024-08-09 15:06
  **/
-public class RaffleActivitySupport {
+public class RaffleActivityAccountQuotaSupport {
     protected DefaultActivityChainFactory defaultActivityChainFactory;
 
     protected IActivityRepository activityRepository;
 
-    public RaffleActivitySupport(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
+    public RaffleActivityAccountQuotaSupport(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
         this.activityRepository = activityRepository;
         this.defaultActivityChainFactory = defaultActivityChainFactory;
     }
