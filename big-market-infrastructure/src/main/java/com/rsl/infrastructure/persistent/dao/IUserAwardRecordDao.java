@@ -1,5 +1,7 @@
 package com.rsl.infrastructure.persistent.dao;
 
+import cn.bugstack.middleware.db.router.annotation.DBRouterStrategy;
+import com.rsl.infrastructure.persistent.po.UserAwardRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -8,5 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
  * @ create: 2024-08-14 13:53
  **/
 @Mapper
+@DBRouterStrategy(splitTable = true)
 public interface IUserAwardRecordDao {
+
+    void insert(UserAwardRecord userAwardRecord);
+
 }
