@@ -42,7 +42,7 @@ public class SendMessageTaskJob {
                         dbRouter.setDBKey(finalDbIdx);
                         dbRouter.setTBKey(0);
                         List<TaskEntity> taskEntities = taskService.queryNoSendMessageTaskList();
-                        log.info("测试结果：{}", taskEntities.size());
+//                        log.info("测试结果：{}", taskEntities.size());
                         if (taskEntities.isEmpty()) return;
                         // 发送MQ消息
                         for (TaskEntity taskEntity : taskEntities) {

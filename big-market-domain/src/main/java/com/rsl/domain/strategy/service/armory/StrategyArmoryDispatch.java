@@ -16,7 +16,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 /**
- * @ description:策略装配工厂，负责初始化策略计算
+ * @ description:抽奖策略装配工厂，负责初始化策略计算
  * @ author: rsl
  * @ create: 2024-07-02 16:11
  **/
@@ -28,6 +28,13 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
     @Resource
     private IStrategyRepository repository;
 
+    //根据活动ID装配,串联活动和抽奖
+    @Override
+    public boolean assembleLotteryStrategyByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return assembleLotteryStrategy(strategyId);
+    }
+    //根据策略ID装配
     @Override
     public boolean assembleLotteryStrategy(Long strategyId) {
         // 1. 查询策略配置
@@ -68,6 +75,8 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
 
         return true;
     }
+
+
 
 
     /**

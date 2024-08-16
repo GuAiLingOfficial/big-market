@@ -30,4 +30,15 @@
           AND order_state = 'create'
     </select>
 
+
+    <update id="updateUserRaffleOrderStateUsed" parameterType="com.rsl.infrastructure.persistent.po.UserRaffleOrder">
+        UPDATE user_raffle_order
+        SET order_state = 'used',
+            update_time = now()
+        WHERE user_id = #{userId}
+          AND order_id = #{orderId}
+          AND order_state = 'create'
+    </update>
+
+
 </mapper>

@@ -3,8 +3,8 @@ package com.rsl.trigger.api;
 
 import com.rsl.trigger.api.dto.RaffleAwardListRequestDTO;
 import com.rsl.trigger.api.dto.RaffleAwardListResponseDTO;
-import com.rsl.trigger.api.dto.RaffleRequestDTO;
-import com.rsl.trigger.api.dto.RaffleResponseDTO;
+import com.rsl.trigger.api.dto.RaffleStrategyRequestDTO;
+import com.rsl.trigger.api.dto.RaffleStrategyResponseDTO;
 import com.rsl.types.model.Response;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @ author: rsl
  * @ create: 2024-07-25 23:39
  **/
-public interface IRaffleService {
+public interface IRaffleStrategyService {
 
     /**
      * 策略装配接口
@@ -38,6 +38,6 @@ public interface IRaffleService {
      * @param requestDTO 请求参数
      * @return 抽奖结果
      */
-    Response<RaffleResponseDTO> randomRaffle(RaffleRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> randomRaffle(RaffleStrategyRequestDTO requestDTO);
 
 }

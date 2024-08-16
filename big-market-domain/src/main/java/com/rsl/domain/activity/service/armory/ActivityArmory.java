@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ description:活动sku预热
+ * sku用于装配活动
  * @ author: rsl
  * @ create: 2024-08-12 09:55
  **/
@@ -20,6 +22,23 @@ public class ActivityArmory implements IActivityArmory, IActivityDispatch {
 
     @Resource
     private IActivityRepository activityRepository;
+
+    //根据活动ID装配,串联活动和抽奖
+    @Override
+    public boolean assembleActivitySkuByActivityId(Long activityId) {
+        List<ActivitySkuEntity> activitySkuEntities = activityRepository.queryActivitySkuListByActivityId(activityId);
+        for (ActivitySkuEntity activitySkuEntity : activitySkuEntities) {
+            cacheActivitySkuStockCount(activitySkuEntity.getSku(), activitySkuEntity.getStockCountSurplus());
+            // 预热活动次数【查询时预热到缓存】
+            activityRepository.queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
+        }
+
+        // 预热活动【查询时预热到缓存】
+        activityRepository.queryRaffleActivityByActivityId(activityId);
+
+        return true;
+
+    }
 
     @Override
     public boolean assembleActivitySku(Long sku) {
@@ -35,6 +54,7 @@ public class ActivityArmory implements IActivityArmory, IActivityDispatch {
 
         return true;
     }
+
 
     private void cacheActivitySkuStockCount(Long sku, Integer stockCount) {
         String cacheKey = Constants.RedisKey.ACTIVITY_SKU_STOCK_COUNT_KEY + sku;

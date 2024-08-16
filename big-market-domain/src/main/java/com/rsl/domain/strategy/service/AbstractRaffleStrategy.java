@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
  * @ create: 2024-07-17 09:27
  **/
 @Slf4j
-public abstract class AbstractRaffleStrategy implements IRaffleStrategy{
+public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
 
     // 策略仓储服务 -> domain层像一个大厨，仓储层提供米面粮油
     protected IStrategyRepository repository;
@@ -65,6 +65,7 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy{
         StrategyAwardEntity strategyAward = repository.queryStrategyAwardEntity(strategyId, awardId);
         return RaffleAwardEntity.builder()
                 .awardId(awardId)
+                .awardTitle(strategyAward.getAwardTitle())
                 .awardConfig(awardConfig)
                 .sort(strategyAward.getSort())
                 .build();

@@ -3,8 +3,10 @@ package com.rsl.infrastructure.persistent.dao;
 import com.rsl.infrastructure.persistent.po.RaffleActivitySku;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
- * @ description:
+ * @ description:商品sku dao
  * @ author: rsl
  * @ create: 2024-08-08 15:09
  **/
@@ -15,4 +17,6 @@ public interface IRaffleActivitySkuDao {
     void updateActivitySkuStock(Long sku);
 
     void clearActivitySkuStock(Long sku);
+
+    List<RaffleActivitySku> queryActivitySkuListByActivityId(Long activityId);
 }
