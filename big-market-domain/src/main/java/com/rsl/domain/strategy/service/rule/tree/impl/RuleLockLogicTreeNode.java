@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Component("rule_lock")
 public class RuleLockLogicTreeNode implements ILogicTreeNode {
     //    用户抽奖次数，后续完成这部分流程开发的时候，从数据库/Redis中读取
-    //    private Long userRaffleCount = 10L;
+        private Long userRaffleCount = 10L;
     @Resource
     private IStrategyRepository repository;
 

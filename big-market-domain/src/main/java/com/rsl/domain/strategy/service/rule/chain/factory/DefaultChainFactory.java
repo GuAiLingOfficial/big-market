@@ -12,7 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class DefaultChainFactory {
-    // 原型模式获取对象
+    // 原型模式获取对象     实现动态责任链
+    //动态责任链的Bean需要使用原型模式，这样子责任链的链条顺序就不会变了，为了避免重复创建相同的链条，相同抽奖策略可以将责任链缓存起来。
     private final ApplicationContext applicationContext;
     // 仓储信息
     protected IStrategyRepository repository;
@@ -36,6 +37,7 @@ public class DefaultChainFactory {
         if (null != cacheLogicChain) return cacheLogicChain;
 
         StrategyEntity strategy = repository.queryStrategyEntityByStrategyId(strategyId);
+        //根据ruleModels里的值构建责任链,似乎是查strategy表，然后根据该表里的rulemodels构建整条责任链
         String[] ruleModels = strategy.ruleModels();
 
         // 如果未配置策略规则，则只装填一个默认责任链

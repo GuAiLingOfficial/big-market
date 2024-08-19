@@ -7,6 +7,7 @@ import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import com.rsl.domain.strategy.repository.IStrategyRepository;
 import com.rsl.domain.strategy.service.AbstractRaffleStrategy;
 import com.rsl.domain.strategy.service.IRaffleAward;
+import com.rsl.domain.strategy.service.IRaffleRule;
 import com.rsl.domain.strategy.service.IRaffleStock;
 import com.rsl.domain.strategy.service.armory.IStrategyDispatch;
 import com.rsl.domain.strategy.service.rule.chain.ILogicChain;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * raffle 是抽奖功能的实现，抽象类是模板模式，定义出标准的抽奖流程*
@@ -27,7 +29,7 @@ import java.util.List;
  **/
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock, IRaffleRule {
 
     public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultTreeFactory defaultTreeFactory) {
         super(repository, strategyDispatch, defaultChainFactory, defaultTreeFactory);
@@ -68,4 +70,15 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRa
         return repository.queryStrategyAwardList(strategyId);
     }
 
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardListByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return queryRaffleStrategyAwardList(strategyId);
+
+    }
+
+    @Override
+    public Map<String, Integer> queryAwardRuleLockCount(String[] treeIds) {
+        return repository.queryAwardRuleLockCount(treeIds);
+    }
 }
