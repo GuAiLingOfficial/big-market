@@ -29,7 +29,7 @@ public class LogicTreeTest {
 
     /**
      * rule_lock --左--> rule_luck_award
-     *           --右--> rule_stock --右--> rule_luck_award
+     * --右--> rule_stock --右--> rule_luck_award
      */
     @Test
     public void test_tree_rule() {
@@ -96,7 +96,7 @@ public class LogicTreeTest {
 
         IDecisionTreeEngine treeEngine = defaultTreeFactory.openLogicTree(ruleTreeVO);
 
-        DefaultTreeFactory.StrategyAwardVO data = treeEngine.process("xiaofuge", 100001L, 100);
+        DefaultTreeFactory.StrategyAwardVO data = treeEngine.process("xiaofuge", 100001L, 100, null);
         log.info("测试结果：{}", JSON.toJSONString(data));
 
     }

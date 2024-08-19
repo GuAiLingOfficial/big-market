@@ -36,6 +36,13 @@
         WHERE activity_id = #{activityId}
     </select>
 
+    <select id="querySkuList" resultType="java.lang.Long">
+        SELECT sku
+        FROM raffle_activity_sku
+        WHERE activity_id IN (SELECT activity_id FROM raffle_activity WHERE state = 'open')
+    </select>
+
+
 
 
 </mapper>

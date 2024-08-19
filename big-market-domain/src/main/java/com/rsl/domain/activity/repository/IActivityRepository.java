@@ -30,12 +30,15 @@ public interface IActivityRepository {
     void activitySkuStockConsumeSendQueue(ActivitySkuStockKeyVO build);
 
     ActivitySkuStockKeyVO takeQueueValue();
+    ActivitySkuStockKeyVO takeQueueValue(Long sku);
 
     void clearQueueValue();
+    void clearQueueValue(Long sku);
 
     void updateActivitySkuStock(Long sku);
 
     void clearActivitySkuStock(Long sku);
+    List<Long> querySkuList();
 
     void saveCreatePartakeOrderAggregate(CreatePartakeOrderAggregate createPartakeOrderAggregate);
 

@@ -1,5 +1,7 @@
 package com.rsl.domain.strategy.service.armory;
 
+import java.util.Date;
+
 /**
  * @ description:策略抽奖调度，只执行抽奖职责
  * @ author: rsl
@@ -36,9 +38,10 @@ public interface IStrategyDispatch {
      *
      * @param strategyId 策略ID
      * @param awardId    奖品ID
+     * @param endDateTime 活动到期时间
      * @return 扣减结果
      */
-    Boolean subtractionAwardStock(Long strategyId, Integer awardId);
+    Boolean subtractionAwardStock(Long strategyId, Integer awardId, Date endDateTime);
 
 }
 
