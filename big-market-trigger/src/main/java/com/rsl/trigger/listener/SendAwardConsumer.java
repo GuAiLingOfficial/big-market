@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class SendAwardCustomer {
+public class SendAwardConsumer {
 
     @Value("${spring.rabbitmq.topic.send_award}")
     private String topic;

@@ -36,4 +36,15 @@
           AND month_count_surplus > 0
     </update>
 
+    <update id="addAccountQuota" parameterType="com.rsl.infrastructure.persistent.po.RaffleActivityAccountMonth">
+        UPDATE raffle_activity_account_month
+        SET month_count_surplus = month_count_surplus + #{monthCountSurplus},
+            month_count         = month_count + #{monthCount},
+            update_time         = now()
+        WHERE user_id = #{userId}
+          AND activity_id = #{activityId}
+          AND month = #{month}
+    </update>
+
+
 </mapper>
