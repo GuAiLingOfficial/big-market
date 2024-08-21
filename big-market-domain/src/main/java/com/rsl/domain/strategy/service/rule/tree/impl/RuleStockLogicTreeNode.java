@@ -49,7 +49,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
                             .build())
                     .build();
         }
-
+        // 注意；根据数据库表中配置走不同的节点。目前数据库配置 ALLOW 是走到下一个节点。
         // 如果库存不足，则直接返回放行
         log.warn("规则过滤-库存扣减-告警，库存不足。userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
         return DefaultTreeFactory.TreeActionEntity.builder()
