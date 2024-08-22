@@ -4,6 +4,8 @@ import com.alibaba.fastjson2.JSON;
 import com.rsl.trigger.api.IRaffleActivityService;
 import com.rsl.trigger.api.dto.ActivityDrawRequestDTO;
 import com.rsl.trigger.api.dto.ActivityDrawResponseDTO;
+import com.rsl.trigger.api.dto.UserActivityAccountRequestDTO;
+import com.rsl.trigger.api.dto.UserActivityAccountResponseDTO;
 import com.rsl.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -34,18 +36,39 @@ public class RaffleActivityControllerTest {
 
     @Test
     public void test_draw() {
-        ActivityDrawRequestDTO request = new ActivityDrawRequestDTO();
-        request.setActivityId(100301L);
-        request.setUserId("xiaofuge");
-        Response<ActivityDrawResponseDTO> response = raffleActivityService.draw(request);
+        for (int i = 0; i < 1; i++) {
+            ActivityDrawRequestDTO request = new ActivityDrawRequestDTO();
+            request.setActivityId(100301L);
+            request.setUserId("xiaofuge");
+            Response<ActivityDrawResponseDTO> response = raffleActivityService.draw(request);
 
-        log.info("请求参数：{}", JSON.toJSONString(request));
+            log.info("请求参数：{}", JSON.toJSONString(request));
+            log.info("测试结果：{}", JSON.toJSONString(response));
+        }
+    }
+
+    @Test
+    public void test_calendarSignRebate() {
+        Response<Boolean> response = raffleActivityService.calendarSignRebate("ruanshilin");
         log.info("测试结果：{}", JSON.toJSONString(response));
     }
 
     @Test
-    public void test_calendarSignRebate(){
-        Response<Boolean> response = raffleActivityService.calendarSignRebate("xiaofuge");
+    public void test_isCalendarSignRebate() {
+        Response<Boolean> response = raffleActivityService.isCalendarSignRebate("ruanshilin");
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
+    @Test
+    public void test_queryUserActivityAccount() {
+        UserActivityAccountRequestDTO request = new UserActivityAccountRequestDTO();
+        request.setActivityId(100301L);
+        request.setUserId("ruanshilin");
+
+        // 查询数据
+        Response<UserActivityAccountResponseDTO> response = raffleActivityService.queryUserActivityAccount(request);
+
+        log.info("请求参数：{}", JSON.toJSONString(request));
         log.info("测试结果：{}", JSON.toJSONString(response));
     }
 

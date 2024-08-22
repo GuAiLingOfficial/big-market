@@ -4,6 +4,7 @@ import com.rsl.domain.strategy.model.entity.StrategyAwardEntity;
 import com.rsl.domain.strategy.model.entity.StrategyEntity;
 import com.rsl.domain.strategy.model.entity.StrategyRuleEntity;
 import com.rsl.domain.strategy.model.valobj.RuleTreeVO;
+import com.rsl.domain.strategy.model.valobj.RuleWeightVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.rsl.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 
@@ -103,13 +104,49 @@ public interface IStrategyRepository {
      * @param awardId    奖品ID
      * @return 奖品信息
      */
-
     StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
 
+    /**
+     * 查询策略ID
+     *
+     * @param activityId 活动ID
+     * @return 策略ID
+     */
     Long queryStrategyIdByActivityId(Long activityId);
 
+    /**
+     * 查询用户抽奖次数 - 当天的；策略ID:活动ID 1:1 的配置，可以直接用 strategyId 查询。
+     *
+     * @param userId     用户ID
+     * @param strategyId 策略ID
+     * @return 用户今日参与次数
+     */
     Integer queryTodayUserRaffleCount(String userId, Long strategyId);
 
+    /**
+     * 根据规则树ID集合查询奖品中加锁数量的配置「部分奖品需要抽奖N次解锁」
+     *
+     * @param treeIds 规则树ID值
+     * @return key 规则树，value rule_lock 加锁值
+     */
     Map<String, Integer> queryAwardRuleLockCount(String[] treeIds);
+
+    /**
+     * 根据用户ID、策略ID，查询用户活动账户总使用量
+     *
+     * @param userId     用户ID
+     * @param strategyId 策略ID
+     * @return 使用总量
+     */
+    Integer queryActivityAccountTotalUseCount(String userId, Long strategyId);
+
+    /**
+     * 查询奖品权重配置
+     *
+     * @param strategyId 策略ID
+     * @return 权重规则
+     */
+    List<RuleWeightVO> queryAwardRuleWeight(Long strategyId);
+
 }
 
