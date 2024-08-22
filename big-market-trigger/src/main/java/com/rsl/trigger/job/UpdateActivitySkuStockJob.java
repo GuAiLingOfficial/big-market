@@ -30,7 +30,7 @@ public class UpdateActivitySkuStockJob {
         try {
             List<Long> skus = skuStock.querySkuList();
             for (Long sku : skus) {
-                executor.execute(()->{
+                executor.execute(() -> {
                     ActivitySkuStockKeyVO activitySkuStockKeyVO = null;
                     try {
                         activitySkuStockKeyVO = skuStock.takeQueueValue(sku);
@@ -42,8 +42,7 @@ public class UpdateActivitySkuStockJob {
                     skuStock.updateActivitySkuStock(activitySkuStockKeyVO.getSku());
                 });
             }
-        }
- catch (Exception e) {
+        } catch (Exception e) {
             log.error("定时任务，更新活动sku库存失败", e);
         }
     }
