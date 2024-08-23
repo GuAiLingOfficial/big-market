@@ -50,7 +50,6 @@ public class RaffleStrategyController implements IRaffleStrategyService {
     private IRaffleActivityAccountQuotaService raffleActivityAccountQuotaService;
 
 
-
     /**
      * 策略装配，将策略信息装配到缓存中
      * <a href="http://localhost:8091/api/v1/raffle/strategy_armory">/api/v1/raffle/strategy_armory</a>
@@ -60,7 +59,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
      */
     @RequestMapping(value = "strategy_armory", method = RequestMethod.GET)  //指定接口名字和请求方法
     @Override
-    public Response<Boolean> strategyArmory(Long strategyId) {
+    public Response<Boolean> strategyArmory(@RequestParam Long strategyId) {
         try {
             log.info("抽奖策略装配开始 strategyId：{}", strategyId);
             boolean armoryStatus = strategyArmory.assembleLotteryStrategy(strategyId);
@@ -143,7 +142,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
     }
 
     /**
-     * &#x67E5;&#x8BE2;&#x62BD;&#x5956;&#x7B56;&#x7565;&#x6743;&#x91CD;&#x89C4;&#x5219;&#x914D;&#x7F6E;
+     * 查询策略抽奖权重规则
      * curl --request POST \
      * --url http://localhost:8091/api/v1/raffle/strategy/query_raffle_strategy_rule_weight \
      * --header 'content-type: application/json' \
@@ -155,7 +154,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
 
     @RequestMapping(value = "query_raffle_strategy_rule_weight", method = RequestMethod.POST)
     @Override
-    public Response<List<RaffleStrategyRuleWeightResponseDTO>> queryRaffleStrategyRuleWeight(RaffleStrategyRuleWeightRequestDTO request) {
+    public Response<List<RaffleStrategyRuleWeightResponseDTO>> queryRaffleStrategyRuleWeight(@RequestBody RaffleStrategyRuleWeightRequestDTO request) {
         try {
             log.info("查询抽奖策略权重规则配置开始 userId:{} activityId：{}", request.getUserId(), request.getActivityId());
             // 1. 参数校验
@@ -200,7 +199,6 @@ public class RaffleStrategyController implements IRaffleStrategyService {
                     .build();
         }
     }
-
 
 
     /**
