@@ -22,4 +22,13 @@
                 #{awardState}, now(), now())
     </insert>
 
+    <update id="updateAwardRecordCompletedState" parameterType="com.rsl.infrastructure.persistent.po.UserAwardRecord">
+        UPDATE user_award_record
+        SET award_state = 'completed'
+        WHERE user_id = #{userId}
+          AND order_id = #{orderId}
+          AND award_state = 'create'
+    </update>
+
+
 </mapper>

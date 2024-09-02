@@ -17,7 +17,6 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class RaffleActivityAccountDay {
 
     private final static SimpleDateFormat dateFormatDay = new SimpleDateFormat("yyyy-MM-dd");
@@ -25,7 +24,7 @@ public class RaffleActivityAccountDay {
     /**
      * 自增ID
      */
-    private String id;
+    private Long id;
     /**
      * 用户ID
      */
@@ -59,5 +58,5 @@ public class RaffleActivityAccountDay {
         return dateFormatDay.format(new Date());
     }
 
-
 }
+

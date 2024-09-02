@@ -37,7 +37,7 @@ public class DefaultChainFactory {
         if (null != cacheLogicChain) return cacheLogicChain;
 
         StrategyEntity strategy = repository.queryStrategyEntityByStrategyId(strategyId);
-        //根据ruleModels里的值构建责任链,似乎是查strategy表，然后根据该表里的rulemodels构建整条责任链
+        //根据ruleModels里的值构建责任链,似乎是查strategy表，然后根据该表里的rulemodels构建整条完整责任链
         String[] ruleModels = strategy.ruleModels();
 
         // 如果未配置策略规则，则只装填一个默认责任链
@@ -74,9 +74,14 @@ public class DefaultChainFactory {
          */
         private Integer awardId;
         /**
-         *
+         * 抽奖类型；黑名单抽奖、权重规则、默认抽奖
          */
         private String logicModel;
+        /**
+         * 抽奖奖品规则
+         */
+        private String awardRuleValue;
+
     }
 
     @Getter

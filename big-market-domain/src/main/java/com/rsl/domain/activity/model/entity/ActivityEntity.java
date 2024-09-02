@@ -58,5 +58,6 @@ public class ActivityEntity {
      */
     private ActivityStateVO state;
 
+
 }
 
