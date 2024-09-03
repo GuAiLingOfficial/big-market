@@ -24,5 +24,7 @@ public interface IRaffleActivityAccountDao {
     //更新总账户里的日额度的镜像额度？
     void updateActivityAccountDaySurplusImageQuota(RaffleActivityAccount raffleActivityAccount);
 
+    RaffleActivityAccount queryAccountByUserId(RaffleActivityAccount raffleActivityAccount);
+
 
 }

@@ -15,14 +15,18 @@ import com.rsl.infrastructure.persistent.po.Task;
 import com.rsl.infrastructure.persistent.po.UserAwardRecord;
 import com.rsl.infrastructure.persistent.po.UserCreditAccount;
 import com.rsl.infrastructure.persistent.po.UserRaffleOrder;
+import com.rsl.infrastructure.persistent.redis.IRedisService;
+import com.rsl.types.common.Constants;
 import com.rsl.types.enums.ResponseCode;
 import com.rsl.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ description:奖品仓储服务
@@ -45,10 +49,11 @@ public class AwardRepository implements IAwardRepository {
     @Resource
     private IDBRouterStrategy dbRouter;
     @Resource
+    private IRedisService redisService;
+    @Resource
     private TransactionTemplate transactionTemplate;
     @Resource
     private EventPublisher eventPublisher;
-
 
 
     @Override
@@ -122,7 +127,7 @@ public class AwardRepository implements IAwardRepository {
     }
 
     @Override
-    public String queryAwardConfig(Integer awardId){
+    public String queryAwardConfig(Integer awardId) {
         return awardDao.queryAwardConfigByAwardId(awardId);
     }
 
@@ -145,16 +150,20 @@ public class AwardRepository implements IAwardRepository {
         userCreditAccountReq.setAvailableAmount(userCreditAwardEntity.getCreditAmount());
         userCreditAccountReq.setAccountStatus(AccountStatusVO.open.getCode());
 
+        RLock lock = redisService.getLock(Constants.RedisKey.ACTIVITY_ACCOUNT_LOCK + userId);
+
         try {
             dbRouter.doRouter(giveOutPrizesAggregate.getUserId());
             transactionTemplate.execute(status -> {
                 try {
+                    lock.lock(3, TimeUnit.SECONDS);
                     // 更新积分 || 创建积分账户
-                    int updateAccountCount = userCreditAccountDao.updateAddAmount(userCreditAccountReq);
-                    if (0 == updateAccountCount) {
+                    UserCreditAccount userCreditAccountRes = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
+                    if (null == userCreditAccountRes) {
                         userCreditAccountDao.insert(userCreditAccountReq);
+                    } else {
+                        userCreditAccountDao.updateAddAmount(userCreditAccountReq);
                     }
-
                     // 更新奖品记录
                     int updateAwardCount = userAwardRecordDao.updateAwardRecordCompletedState(userAwardRecordReq);
                     if (0 == updateAwardCount) {
@@ -170,6 +179,7 @@ public class AwardRepository implements IAwardRepository {
             });
         } finally {
             dbRouter.clear();
+            lock.unlock();
         }
     }
 
