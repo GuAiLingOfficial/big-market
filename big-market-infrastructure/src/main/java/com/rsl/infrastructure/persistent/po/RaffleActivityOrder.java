@@ -2,6 +2,7 @@ package com.rsl.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -68,12 +69,17 @@ public class RaffleActivityOrder {
     private Integer monthCount;
 
     /**
+     * 支付金额【积分】
+     */
+    private BigDecimal payAmount;
+
+    /**
      * 订单状态
      */
     private String state;
 
     /**
-     * 业务防重ID - 外部透传的，确保幂等
+     * 业务仿重ID - 外部透传的，确保幂等
      */
     private String outBusinessNo;
 
@@ -86,6 +92,7 @@ public class RaffleActivityOrder {
      * 更新时间
      */
     private Date updateTime;
+
 
 }
 

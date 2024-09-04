@@ -22,6 +22,7 @@ public class SendRebateMessageEvent extends BaseEvent<SendRebateMessageEvent.Reb
     @Value("${spring.rabbitmq.topic.send_rebate}")
     private String topic;
 
+    //可重入锁
     @Override
     public EventMessage<RebateMessage> buildEventMessage(RebateMessage data) {
         return EventMessage.<SendRebateMessageEvent.RebateMessage>builder()
