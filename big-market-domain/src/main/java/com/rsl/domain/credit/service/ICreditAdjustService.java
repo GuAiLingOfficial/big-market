@@ -1,5 +1,6 @@
 package com.rsl.domain.credit.service;
 
+import com.rsl.domain.credit.model.entity.CreditAccountEntity;
 import com.rsl.domain.credit.model.entity.TradeEntity;
 
 /**
@@ -16,5 +17,11 @@ public interface ICreditAdjustService {
      */
     String createOrder(TradeEntity tradeEntity);
 
+    /**
+     * 查询用户积分账户
+     * @param userId 用户ID
+     * @return 积分账户实体
+     */
+    CreditAccountEntity queryUserCreditAccount(String userId);
 }
 

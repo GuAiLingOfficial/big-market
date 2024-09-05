@@ -1,6 +1,7 @@
 package com.rsl.domain.credit.repository;
 
 import com.rsl.domain.credit.model.aggregate.TradeAggregate;
+import com.rsl.domain.credit.model.entity.CreditAccountEntity;
 
 /**
  * @ description:用户积分仓储
@@ -9,4 +10,6 @@ import com.rsl.domain.credit.model.aggregate.TradeAggregate;
  **/
 public interface ICreditRepository {
     void saveUserCreditTradeOrder(TradeAggregate tradeAggregate);
+
+    CreditAccountEntity queryUserCreditAccount(String userId);
 }

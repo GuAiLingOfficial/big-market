@@ -1,7 +1,10 @@
 package com.rsl.domain.activity.model.entity;
 
 import com.rsl.domain.activity.model.valobj.OrderTradeTypeVO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @ description:活动商品充值实体对象
@@ -9,6 +12,9 @@ import lombok.Data;
  * @ create: 2024-08-09 15:00
  **/
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SkuRechargeEntity {
 
     /** 用户ID */

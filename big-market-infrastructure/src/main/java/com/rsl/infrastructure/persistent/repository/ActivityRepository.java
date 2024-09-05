@@ -705,5 +705,48 @@ public class ActivityRepository implements IActivityRepository {
         }
 
     }
+
+    @Override
+    //这里查询未支付订单的操作，是查询一个月有效期内未支付的订单，超过这个时间的则不在查询（实际时间过长，商品可能有所变化）。也可以增加work扫描，超过1个月订单设置状态为过期
+    public UnpaidActivityOrderEntity queryUnpaidActivityOrder(SkuRechargeEntity skuRechargeEntity) {
+        RaffleActivityOrder raffleActivityOrderReq = new RaffleActivityOrder();
+        raffleActivityOrderReq.setUserId(skuRechargeEntity.getUserId());
+        raffleActivityOrderReq.setSku(skuRechargeEntity.getSku());
+        RaffleActivityOrder raffleActivityOrderRes = raffleActivityOrderDao.queryUnpaidActivityOrder(raffleActivityOrderReq);
+        if (null == raffleActivityOrderRes) return null;
+        return UnpaidActivityOrderEntity.builder()
+                .userId(raffleActivityOrderRes.getUserId())
+                .orderId(raffleActivityOrderRes.getOrderId())
+                .outBusinessNo(raffleActivityOrderRes.getOutBusinessNo())
+                .payAmount(raffleActivityOrderRes.getPayAmount())
+                .build();
+    }
+
+    @Override
+    public List<SkuProductEntity> querySkuProductEntityListByActivityId(Long activityId) {
+        List<RaffleActivitySku> raffleActivitySkus = raffleActivitySkuDao.queryActivitySkuListByActivityId(activityId);
+        List<SkuProductEntity> skuProductEntities = new ArrayList<>(raffleActivitySkus.size());
+        for (RaffleActivitySku raffleActivitySku : raffleActivitySkus) {
+            RaffleActivityCount raffleActivityCount = raffleActivityCountDao.queryRaffleActivityCountByActivityCountId(raffleActivitySku.getActivityCountId());
+
+            SkuProductEntity.ActivityCount activityCount = new SkuProductEntity.ActivityCount();
+            activityCount.setTotalCount(raffleActivityCount.getTotalCount());
+            activityCount.setMonthCount(raffleActivityCount.getMonthCount());
+            activityCount.setDayCount(raffleActivityCount.getDayCount());
+
+            skuProductEntities.add(SkuProductEntity.builder()
+                    .sku(raffleActivitySku.getSku())
+                    .activityId(raffleActivitySku.getActivityId())
+                    .activityCountId(raffleActivitySku.getActivityCountId())
+                    .stockCount(raffleActivitySku.getStockCount())
+                    .stockCountSurplus(raffleActivitySku.getStockCountSurplus())
+                    .productAmount(raffleActivitySku.getProductAmount())
+                    .activityCount(activityCount)
+                    .build());
+
+        }
+        return skuProductEntities;
+    }
+
 }
 

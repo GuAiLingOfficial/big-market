@@ -1,6 +1,8 @@
 package com.rsl.test.domain.activity;
 
+import com.alibaba.fastjson2.JSON;
 import com.rsl.domain.activity.model.entity.SkuRechargeEntity;
+import com.rsl.domain.activity.model.entity.UnpaidActivityOrderEntity;
 import com.rsl.domain.activity.model.valobj.OrderTradeTypeVO;
 import com.rsl.domain.activity.service.IRaffleActivityAccountQuotaService;
 import com.rsl.domain.activity.service.armory.IActivityArmory;
@@ -45,8 +47,8 @@ public class RaffleActivityAccountQuotaServiceTest  {
         // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
         skuRechargeEntity.setOutBusinessNo("700091009111");
         skuRechargeEntity.setOrderTradeType(OrderTradeTypeVO.credit_pay_trade);
-        String orderId = raffleOrder.createOrder(skuRechargeEntity);
-        log.info("测试结果：{}", orderId);
+        UnpaidActivityOrderEntity unpaidActivityOrderEntity = raffleOrder.createOrder(skuRechargeEntity);
+        log.info("测试结果：{}", JSON.toJSONString(unpaidActivityOrderEntity));
     }
 
     /**
@@ -65,8 +67,8 @@ public class RaffleActivityAccountQuotaServiceTest  {
                 // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
                 skuRechargeEntity.setOutBusinessNo(RandomStringUtils.randomNumeric(12));
                 skuRechargeEntity.setOrderTradeType(OrderTradeTypeVO.credit_pay_trade);
-                String orderId = raffleOrder.createOrder(skuRechargeEntity);
-                log.info("测试结果：{}", orderId);
+                UnpaidActivityOrderEntity unpaidActivityOrderEntity = raffleOrder.createOrder(skuRechargeEntity);
+                log.info("测试结果：{}", JSON.toJSONString(unpaidActivityOrderEntity));
             } catch (AppException e) {
                 log.warn(e.getInfo());
             }
@@ -75,7 +77,7 @@ public class RaffleActivityAccountQuotaServiceTest  {
         new CountDownLatch(1).await();
     }
 
-
+    //创建未支付订单
     @Test
     public void test_credit_pay_trade() {
         SkuRechargeEntity skuRechargeEntity = new SkuRechargeEntity();
@@ -84,8 +86,8 @@ public class RaffleActivityAccountQuotaServiceTest  {
         // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
         skuRechargeEntity.setOutBusinessNo("70009240609113");
         skuRechargeEntity.setOrderTradeType(OrderTradeTypeVO.credit_pay_trade);
-        String orderId = raffleOrder.createOrder(skuRechargeEntity);
-        log.info("测试结果：{}", orderId);
+        UnpaidActivityOrderEntity unpaidActivityOrderEntity = raffleOrder.createOrder(skuRechargeEntity);
+        log.info("测试结果：{}", JSON.toJSONString(unpaidActivityOrderEntity));
     }
 
 

@@ -73,4 +73,15 @@
           AND state = 'wait_pay'
     </update>
 
+    <select id="queryUnpaidActivityOrder" parameterType="com.rsl.infrastructure.persistent.po.RaffleActivityOrder" resultMap="dataMap">
+        SELECT user_id, order_id, out_business_no, pay_amount
+        FROM raffle_activity_order
+        WHERE user_id = #{userId}
+          AND sku = #{sku}
+          AND state = 'wait_pay'
+          AND order_time >= NOW() - INTERVAL 1 MONTH
+        LIMIT 1
+    </select>
+
+
 </mapper>

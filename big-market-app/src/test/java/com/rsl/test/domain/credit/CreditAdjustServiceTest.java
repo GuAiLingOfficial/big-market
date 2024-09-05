@@ -27,7 +27,7 @@ public class CreditAdjustServiceTest {
     @Resource
     private ICreditAdjustService creditAdjustService;
 
-    //加积分
+    //加账户余额，往账户充钱
     @Test
     public void test_createOrder_forward() {
         TradeEntity tradeEntity = new TradeEntity();
@@ -39,7 +39,7 @@ public class CreditAdjustServiceTest {
         creditAdjustService.createOrder(tradeEntity);
     }
 
-    //减积分
+    //减账户余额，用钱换积分
     @Test
     public void test_createOrder_reverse() {
         TradeEntity tradeEntity = new TradeEntity();
@@ -53,6 +53,7 @@ public class CreditAdjustServiceTest {
 
 
     //支付操作
+    //消耗1.68充值100
     @Test
     public void test_createOrder_pay() throws InterruptedException {
         TradeEntity tradeEntity = new TradeEntity();
