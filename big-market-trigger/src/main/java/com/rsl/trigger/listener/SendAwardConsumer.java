@@ -44,7 +44,6 @@ public class SendAwardConsumer {
             distributeAwardEntity.setAwardId(sendAwardMessage.getAwardId());
             distributeAwardEntity.setAwardConfig(sendAwardMessage.getAwardConfig());
             awardService.distributeAward(distributeAwardEntity);
-
         } catch (Exception e) {
             log.error("监听用户奖品发送消息，消费失败 topic: {} message: {}", topic, message);
 //            throw e;

@@ -2,6 +2,7 @@ package com.rsl.infrastructure.persistent.repository;
 
 import cn.bugstack.middleware.db.router.strategy.IDBRouterStrategy;
 import com.alibaba.fastjson2.JSON;
+import com.rsl.domain.award.model.valobj.AccountStatusVO;
 import com.rsl.domain.credit.model.aggregate.TradeAggregate;
 import com.rsl.domain.credit.model.entity.CreditAccountEntity;
 import com.rsl.domain.credit.model.entity.CreditOrderEntity;
@@ -16,6 +17,8 @@ import com.rsl.infrastructure.persistent.po.UserCreditAccount;
 import com.rsl.infrastructure.persistent.po.UserCreditOrder;
 import com.rsl.infrastructure.persistent.redis.IRedisService;
 import com.rsl.types.common.Constants;
+import com.rsl.types.enums.ResponseCode;
+import com.rsl.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,6 +67,7 @@ public class CreditRepository implements ICreditRepository {
         userCreditAccountReq.setTotalAmount(creditAccountEntity.getAdjustAmount());
         // 知识；仓储往上有业务语义，仓储往下到 dao 操作是没有业务语义的。所以不用在乎这块使用的字段名称，直接用持久化对象即可。
         userCreditAccountReq.setAvailableAmount(creditAccountEntity.getAdjustAmount());
+        userCreditAccountReq.setAccountStatus(AccountStatusVO.open.getCode());
 
         // 积分订单
         UserCreditOrder userCreditOrderReq = new UserCreditOrder();
@@ -93,7 +98,17 @@ public class CreditRepository implements ICreditRepository {
                     if (null == userCreditAccount) {
                         userCreditAccountDao.insert(userCreditAccountReq);
                     } else {
-                        userCreditAccountDao.updateAddAmount(userCreditAccountReq);
+                        BigDecimal availableAmount = userCreditAccountReq.getAvailableAmount();
+                        if (availableAmount.compareTo(BigDecimal.ZERO) >= 0) {
+                            userCreditAccountDao.updateAddAmount(userCreditAccountReq);
+                        } else {
+                            int subtractionCount = userCreditAccountDao.updateSubtractionAmount(userCreditAccountReq);
+                            if (1 != subtractionCount) {
+                                status.setRollbackOnly();
+                                throw new AppException(ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getCode(), ResponseCode.USER_CREDIT_ACCOUNT_NO_AVAILABLE_AMOUNT.getInfo());
+
+                            }
+                        }
                     }
                     // 2. 保存账户订单
                     userCreditOrderDao.insert(userCreditOrderReq);
@@ -110,7 +125,9 @@ public class CreditRepository implements ICreditRepository {
             });
         } finally {
             dbRouter.clear();
-            lock.unlock();
+            if (lock.isLocked()) {
+                lock.unlock();
+            }
         }
         try {
             // 发送消息【在事务外执行，如果失败还有任务补偿】
@@ -133,10 +150,15 @@ public class CreditRepository implements ICreditRepository {
         try {
             dbRouter.doRouter(userId);
             UserCreditAccount userCreditAccount = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
-            return CreditAccountEntity.builder().userId(userId).adjustAmount(userCreditAccount.getAvailableAmount()).build();
+            BigDecimal availableAmount = BigDecimal.ZERO;
+            if (null != userCreditAccount) {
+                availableAmount = userCreditAccount.getAvailableAmount();
+            }
+            return CreditAccountEntity.builder().userId(userId).adjustAmount(availableAmount).build();
         } finally {
             dbRouter.clear();
         }
-
     }
+
+
 }
