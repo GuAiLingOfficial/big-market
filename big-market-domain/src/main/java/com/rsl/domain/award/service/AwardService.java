@@ -79,7 +79,7 @@ public class AwardService implements IAwardService {
 
         // 奖品服务
         IDistributeAward distributeAward = distributeAwardMap.get(awardKey);
-
+        //仅仅提供了user_credit_random服务，也就是说，发奖是反积分，对于别的awardKey涉及到和open-ai构成微服务系统才能发奖，所以抛出异常是正常的
         if (null == distributeAward) {
             log.error("分发奖品，对应的服务不存在。awardKey:{}", awardKey);
             throw new RuntimeException("分发奖品，奖品" + awardKey + "对应的服务不存在");

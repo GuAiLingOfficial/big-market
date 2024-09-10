@@ -1,22 +1,24 @@
 server:
-  port: 8091
+  port: 8848
   tomcat:
     threads:
       max: 200        # 设定处理客户请求的最大数目，决定了服务器可以同时响应用户请求的数，默认200
       min-spare: 50   # 初始化线程数，最小空闲线程数，默认10
     accept-count: 10  # 等待队列长度
+
 # 应用配置
 app:
   config:
     # 版本，方便通过接口版本升级
     api-version: v1
-    # 跨域，开发阶段可以设置为 * 不限制
+    # 跨域，开发阶段可以设置为 * 不设置
+    # 跨域（Cross-Origin Resource Sharing, CORS）是指在浏览器中运行的 Web 应用程序从一个域（origin）向不同域发送请求的行为 前端应用程序向后端 API 发出请求
     cross-origin: '*'
 
 # Spring 配置；rabbitmq
 spring:
   rabbitmq:
-    addresses: 117.72.37.248
+    addresses: rabbitmq
     port: 5672
     username: admin
     password: 13476675441rsq.
@@ -27,6 +29,7 @@ spring:
       activity_sku_stock_zero: activity_sku_stock_zero
       send_award: send_award
       send_rebate: send_rebate
+      credit_adjust_success: credit_adjust_success
 # 线程池配置
 thread:
   pool:
@@ -38,15 +41,12 @@ thread:
         block-queue-size: 5000
         policy: CallerRunsPolicy
 
-
-
-
-# 数据库配置
+# 单数据库配置；启动时配置数据库资源信息
 #spring:
 #  datasource:
 #    username: root
-#    password: 123456
-#    url: jdbc:mysql://127.0.0.1:3306/xfg_frame_archetype?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+#    password: 13476675441rsq.
+#    url: jdbc:mysql://117.72.37.248:13306/big_market?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #  hikari:
 #    pool-name: Retail_HikariCP
@@ -58,6 +58,10 @@ thread:
 #    connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
 #    connection-test-query: SELECT 1
 #  type: com.zaxxer.hikari.HikariDataSource
+
+# 多数据源路由配置，库数量 * 表数量 为2的次幂，如2库4表
+# mysql 5.x 配置 driver-class-name: com.mysql.jdbc.Driver    mysql-connector-java 5.1.34
+# mysql 8.x 配置 driver-class-name: com.mysql.cj.jdbc.Driver mysql-connector-java 8.0.22
 mini-db-router:
   jdbc:
     datasource:
@@ -68,7 +72,7 @@ mini-db-router:
       list: db01,db02 #表示分库分表，走那套库
       db00:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://117.72.37.248:13306/big_market?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        url: jdbc:mysql://mysql:3306/big_market?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
         password: 13476675441rsq.
         type-class-name: com.zaxxer.hikari.HikariDataSource
@@ -83,7 +87,7 @@ mini-db-router:
           connection-test-query: SELECT 1
       db01:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://117.72.37.248:13306/big_market_01?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        url: jdbc:mysql://mysql:3306/big_market_01?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
         password: 13476675441rsq.
         type-class-name: com.zaxxer.hikari.HikariDataSource
@@ -98,7 +102,7 @@ mini-db-router:
           connection-test-query: SELECT 1
       db02:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://117.72.37.248:13306/big_market_02?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
+        url: jdbc:mysql://mysql:3306/big_market_02?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
         password: 13476675441rsq.
         type-class-name: com.zaxxer.hikari.HikariDataSource
@@ -113,16 +117,17 @@ mini-db-router:
           connection-test-query: SELECT 1
 
 
+# MyBatis 配置【如需使用记得打开】
 mybatis:
   mapper-locations: classpath:/mybatis/mapper/*.xml
-  config-location:  classpath:/mybatis/config/mybatis-config.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
 
 # Redis
 redis:
   sdk:
     config:
-      host: 117.72.37.248
-      port: 16379
+      host: redis
+      port: 6379
       password: 13476675441rsq.
       database: 1
       pool-size: 10
@@ -133,6 +138,9 @@ redis:
       retry-interval: 1000
       ping-interval: 60000
       keep-alive: true
+
+
+
 
 # 日志
 logging:
