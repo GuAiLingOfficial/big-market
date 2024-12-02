@@ -21,7 +21,7 @@ spring:
     addresses: rabbitmq
     port: 5672
     username: admin
-    password: 13476675441rsq.
+    password: 1sq.
     listener:
       simple:
         prefetch: 1 # 每次投递n个消息，消费完在投递n个
@@ -74,7 +74,7 @@ mini-db-router:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://mysql:3306/big_market?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
-        password: 13476675441rsq.
+        password: 13.
         type-class-name: com.zaxxer.hikari.HikariDataSource
         pool:
           pool-name: Retail_HikariCP #TODO 为什么用hikari连接池
@@ -89,7 +89,7 @@ mini-db-router:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://mysql:3306/big_market_01?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
-        password: 13476675441rsq.
+        password: 1
         type-class-name: com.zaxxer.hikari.HikariDataSource
         pool:
           pool-name: Retail_HikariCP
@@ -104,7 +104,7 @@ mini-db-router:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://mysql:3306/big_market_02?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC&useSSL=true
         username: root
-        password: 13476675441rsq.
+        password: .
         type-class-name: com.zaxxer.hikari.HikariDataSource
         pool:
           pool-name: Retail_HikariCP
@@ -128,7 +128,7 @@ redis:
     config:
       host: redis
       port: 6379
-      password: 13476675441rsq.
+      password: q.
       database: 1
       pool-size: 10
       min-idle-size: 5
